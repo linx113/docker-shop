@@ -1,5 +1,5 @@
 import express from "express";
-import { authProxy } from "./proxy";
+import { authProxy, userProxy } from "./proxy";
 
 const app = express();
 
@@ -17,6 +17,18 @@ app.use((req, res, next) => {
 
 app.use("/api/auth", authProxy);
 
-app.listen(5000, () => {
-  console.log("Gateway running on port 5000");
+app.use("/api/user", (req, _res, next) => {
+  console.log(
+    "HIT /api/user middleware:",
+    req.method,
+    req.url,
+    "originalUrl=",
+    req.originalUrl,
+  );
+  next();
 });
+app.use("/api/user", userProxy);
+
+app.use("/api/user", userProxy);
+
+app.listen(5000, () => console.log("Gateway running on port 5000"));
