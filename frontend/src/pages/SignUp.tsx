@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styles from "./Auth.module.css";
-import { CircleX } from "lucide-react";
+import { X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "../zod/auth";
 import type { SignUpData } from "../zod/auth";
@@ -41,7 +41,7 @@ export default function SignUp() {
       <div className={styles.head}>
         <h1>Sign Up</h1>
         <button className={styles.close} type="button">
-          <CircleX onClick={() => navigate("/")} size={25} />
+          <X onClick={() => navigate("/")} size={25} />
         </button>
       </div>
       <section className={styles.section}>

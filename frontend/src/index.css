@@ -39,17 +39,18 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #ffffff;
-    --bg: #16171d;
-    --bg-secondary: #1a1a1e;
-    --border: #2e303a;
+    --bg: #0e0e0e;
+    --bg-secondary: #252526;
+    --header: rgba(255, 255, 255, 0.1);
+    --border: #464646;
     --code-bg: #1f2028;
+    --button-bg: rgba(255, 255, 255, 0.1);
     --accent: #c084fc;
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-hover: #d8b4fe;
     --accent-border: rgba(192, 132, 252, 0.5);
     --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --shadow: rgba(255, 255, 255, 0.4);
   }
 
   #social .button-icon {
