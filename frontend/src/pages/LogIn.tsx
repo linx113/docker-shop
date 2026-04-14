@@ -6,8 +6,12 @@ import styles from "./Auth.module.css";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../zod/auth";
 import type { LoginData } from "../zod/auth";
+import { useState } from "react";
+import axios from "axios";
 
 export default function LogIn() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -18,9 +22,18 @@ export default function LogIn() {
     resolver: zodResolver(loginSchema),
   });
 
-  function handleLogIn(data: LoginData) {
-    console.log(data);
-    // API call to log in the user would go here
+  async function handleLogIn(data: LoginData) {
+    try {
+      setLoading(true);
+      const res = await axios.post("/api/auth/login", data);
+      console.log(res);
+      navigate("/");
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setError("Failed to log in. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -66,8 +79,16 @@ export default function LogIn() {
         />
       </section>
       <button className={styles.submit} type="submit">
-        Log In
+        {loading ? (
+          <>
+            <span className={"spinner"}></span>
+            Logging In...
+          </>
+        ) : (
+          "Log In"
+        )}
       </button>
+      {error && <p className={styles.error}>{error}</p>}
       <p>
         Don't have an account? <Link to="/signup">Sign Up</Link>
       </p>

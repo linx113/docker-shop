@@ -6,8 +6,12 @@ import { CircleX } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "../zod/auth";
 import type { SignUpData } from "../zod/auth";
+import { useState } from "react";
+import axios from "axios";
 
 export default function SignUp() {
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -18,9 +22,18 @@ export default function SignUp() {
     resolver: zodResolver(signUpSchema),
   });
 
-  function handleSignUp(data: SignUpData) {
-    console.log(data);
-    // API call to sign up the user would go here
+  async function handleSignUp(data: SignUpData) {
+    try {
+      setLoading(true);
+      const res = await axios.post("/api/auth/register" , data);
+      console.log(res);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error signing up:", error);
+      setError("Failed to sign up. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -83,8 +96,16 @@ export default function SignUp() {
         />
       </section>
       <button className={styles.submit} type="submit">
-        Sign Up
+        {loading ? (
+          <>
+            <span className={"spinner"}></span>
+            Signing Up...
+          </>
+        ) : (
+          "Sign Up"
+        )}
       </button>
+      {error && <p className={styles.error}>{error}</p>}
       <p>
         Already have an account? <Link to="/login">Log In</Link>
       </p>
