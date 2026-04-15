@@ -1,4 +1,4 @@
-console.log("LOADED proxy.ts VERSION=2026-04-14-1");
+import "dotenv/config";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 export const authProxy = createProxyMiddleware({

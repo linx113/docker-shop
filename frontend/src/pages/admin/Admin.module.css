@@ -1,0 +1,70 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  min-width: 100vw;
+  min-height: 100vh;
+
+  a {
+    text-decoration: none;
+    color: var(--bg);
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 20px;
+    background-color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+}
+
+.backButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: var(--bg);
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--button-bg);
+  border: 1px solid var(--border);
+
+  svg {
+    stroke: var(--text);
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.addButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  text-decoration: none;
+  color: var(--bg);
+  font-size: 1rem;
+  padding: 10px;
+  background-color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  svg {
+    stroke-width: 1px;
+    stroke: var(--bg);
+  }
+}

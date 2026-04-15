@@ -76,6 +76,58 @@ input {
   background: none;
 }
 
+textarea {
+  font: inherit;
+  inset: 0;
+  background: none;
+  resize: none;
+  padding: 0.5rem;
+}
+
+select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  background-color: var(--bg-secondary);
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+  }
+}
+
+option {
+  background-color: var(--bg-secondary);
+  color: var(--text);
+}
+
+label {
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+  }
+
+  &::placeholder {
+    color: var(--text);
+    opacity: 0.5;
+  }
+}
+
 .spinner {
   width: 24px;
   height: 24px;
