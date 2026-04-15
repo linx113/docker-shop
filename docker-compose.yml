@@ -22,9 +22,11 @@ services:
     environment:
       - AUTH_SERVICE_URL=http://auth-service:5001
       - USER_SERVICE_URL=http://user-service:5002
+      - PRODUCT_SERVICE_URL=http://product-service:5003
     depends_on:
       - auth-service
       - user-service
+      - product-service
 
   auth-service:
     build: ./services/auth-service
@@ -41,3 +43,11 @@ services:
       - "5002:5002"
     env_file:
       - ./services/user-service/.env
+
+  product-service:
+    build: ./services/product-service
+    container_name: product-service
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./services/product-service/.env

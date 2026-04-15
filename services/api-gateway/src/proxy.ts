@@ -12,3 +12,9 @@ export const userProxy = createProxyMiddleware({
   changeOrigin: true,
   pathRewrite: (path) => `/user${path}`, // /getProfile -> /user/getProfile
 });
+
+export const productsProxy = createProxyMiddleware({
+  target: process.env.PRODUCT_SERVICE_URL, // http://product-service:5003
+  changeOrigin: true,
+  pathRewrite: (path) => `/products${path}`, // /getProducts -> /products/getProducts
+});

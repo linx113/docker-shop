@@ -131,7 +131,7 @@ input {
 .spinner {
   width: 24px;
   height: 24px;
-  border: 4px solid var(--accent);
+  border: 4px solid var(--text);
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;
