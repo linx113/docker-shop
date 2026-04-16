@@ -7,9 +7,10 @@ export class UserService {
     const { data: user, error } = await supabase
       .from("users")
       .select("*")
-      .single();
+      .maybeSingle();
     if (error) {
-      throw new Error(error.message);
+      console.error("Supabase select error:", error);
+      throw new Error("Failed to fetch user profile");
     }
     return user;
   }

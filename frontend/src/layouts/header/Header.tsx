@@ -1,14 +1,13 @@
-import { useInputStore } from "../../zustand/use-input-store";
 import { useLanguageStore } from "../../zustand/use-language-store";
 import { useNavigate } from "react-router-dom";
-import { Search, Languages, LayoutGrid, User } from "lucide-react";
+import { Languages, LayoutGrid, User, ShoppingCart } from "lucide-react";
 import LanguageDrop from "../../drop-down/language-drop";
 import styles from "./Header.module.css";
-
+import { useCartStore } from "../../zustand/use-cart-store";
 export default function Header() {
   const navigate = useNavigate();
   const { isLanguage, setIsLanguage } = useLanguageStore();
-  const { setIsInput } = useInputStore();
+  const { items } = useCartStore();
   return (
     <>
       <header className={styles.header}>
@@ -23,8 +22,9 @@ export default function Header() {
         </div>
         <nav className={styles.nav}>
           <ul>
-            <li onClick={() => setIsInput(true)} className={styles.button}>
-              <Search size={20} />
+            <li className={styles.button} onClick={() => navigate("/cart")}>
+              <ShoppingCart size={20} />
+              {items > 0 && <span className={styles.cartCount}>{items}</span>}
             </li>
             <li
               className={isLanguage ? styles.buttonActive : styles.button}

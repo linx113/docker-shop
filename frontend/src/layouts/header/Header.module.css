@@ -41,6 +41,22 @@
   }
 }
 
+.cartCount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.7rem;
+}
+
 .buttonActive {
   position: relative;
   display: flex;

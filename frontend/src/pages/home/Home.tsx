@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
 import Header from "../../layouts/header/Header";
 import { useGetProducts } from "../../hooks/use-get-products";
 import styles from "./Home.module.css";
 import Product from "../../components/Product";
 import type { Item } from "../../types/Items.types";
 
-export default function Home({ isAdmin }: { isAdmin: boolean }) {
+export default function Home() {
   const { data, isLoading, error } = useGetProducts();
 
   if (isLoading) {
@@ -20,16 +19,11 @@ export default function Home({ isAdmin }: { isAdmin: boolean }) {
     <main className={styles.homeContainer}>
       <Header />
       <article className={styles.intro}>
-        <h1>Docker Shop</h1>
+        <h1>Shop</h1>
         <p>
           Welcome to the Docker Shop! Explore our collection of Docker images
           and containers.
         </p>
-        {isAdmin && (
-          <button type="button">
-            <Link to="/admin">Go to Admin Dashboard</Link>
-          </button>
-        )}
       </article>
       <div className={styles.productsContainer}>
         {data && data.length > 0 ? (

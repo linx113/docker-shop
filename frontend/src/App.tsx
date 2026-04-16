@@ -5,38 +5,51 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/LogIn";
 import Admin from "./pages/admin/Admin";
 import ManageProducts from "./pages/admin/products/manage-products";
-import useGetUserProfile from "./hooks/use-get-user-profile";
-import { useEffect, useState } from "react";
+import Cart from "./pages/cart/Cart";
+import { useUserDataStore } from "./zustand/use-user-data";
+import { useEffect } from "react";
+import axios from "axios";
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState<boolean>(true);
-  const { data, isLoading, error } = useGetUserProfile();
+  const token = localStorage.getItem("token");
+  const { setUserData } = useUserDataStore();
 
   useEffect(() => {
-    if (data?.role === "admin") {
-      setIsAdmin(true);
+    if (token) {
+      axios
+        .get("/api/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("User data:", response.data);
+          setUserData({
+            id: response.data.id,
+            username: response.data.username,
+            email: response.data.email,
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+          localStorage.removeItem("token");
+        });
     }
-  }, [data]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error loading user profile</div>;
-  }
+  }, []);
 
   return (
     <main className={styles.wrapper}>
       <Routes>
-        <Route path="/" element={<Home isAdmin={isAdmin} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path={isAdmin ? "/admin" : "*"} element={<Admin />} />
         <Route
-          path={isAdmin ? "/admin/products" : "*"}
-          element={<ManageProducts />}
+          path={token !== null || undefined ? "/cart" : "/login"}
+          element={<Cart />}
         />
+
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/products" element={<ManageProducts />} />
       </Routes>
     </main>
   );

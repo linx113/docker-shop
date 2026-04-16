@@ -56,3 +56,14 @@
   cursor: pointer;
   width: 100%;
 }
+
+.remove {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

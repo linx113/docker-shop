@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ItemSchema } from "../../zod/item";
 import type { Item } from "../../zod/item";
-import globalModalStyles from "../input-modal/input-modal.module.css";
 import styles from "./add-product-modal.module.css";
 import { createPortal } from "react-dom";
 import { useAddProduct } from "../../zustand/use-add-product";
@@ -60,10 +59,10 @@ export default function AddProductModal() {
 
   return createPortal(
     <>
-      <div className={globalModalStyles.overlay}></div>
-      <div className={globalModalStyles.wrapper}>
+      <div className={styles.overlay}></div>
+      <div className={styles.wrapper}>
         <button
-          className={globalModalStyles.closeButton}
+          className={styles.closeButton}
           type="button"
           onClick={() => setIsAdding(false)}
         >

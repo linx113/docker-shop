@@ -6,49 +6,51 @@ const supabase = createSupabaseClient();
 
 export class AuthService {
   async register(data: { email: string; password: string; name: string }) {
-    
-    const { data: existing } = await supabase
-      .from("users")
-      .select("*")
-      .eq("email", data.email)
-      .maybeSingle();
-
-    if (existing) throw new Error("User already exists");
-
     const hashed = await hashPassword(data.password);
 
     const { data: user, error } = await supabase
       .from("users")
       .insert({
-        username: data.name,  
+        username: data.name,
         email: data.email,
         password: hashed,
       })
       .select()
-      .single();
+      .maybeSingle();
 
     if (error || !user) throw new Error("User not created");
-
-    const token = generateToken({ id: user.id, email: user.email });
-
-    return { user, token };
   }
 
   async login(data: { email: string; password: string }) {
-    const { data: user, error } = await supabase
+    const { data: users, error } = await supabase
       .from("users")
       .select("*")
       .eq("email", data.email)
-      .single();
+      .limit(1);
 
-    if (error || !user) throw new Error("User not found");
+    if (error) {
+      console.error("Supabase query error:", error);
+      throw new Error("Database error while logging in");
+    }
+
+    const user = users?.[0];
+
+    if (!user) {
+      throw new Error("User not found");
+    }
 
     const isValid = await comparePassword(data.password, user.password);
-    if (!isValid) throw new Error("Invalid password");
 
-    const token = generateToken({ id: user.id, email: user.email });
+    if (!isValid) {
+      throw new Error("Invalid password");
+    }
 
-    return { user, token };
+    const token = generateToken({
+      id: user.id,
+      email: user.email,
+    });
+
+    return { token };
   }
 
   async me(token?: string) {
@@ -60,7 +62,7 @@ export class AuthService {
       .from("users")
       .select("*")
       .eq("id", decoded.id)
-      .single();
+      .maybeSingle();
 
     if (error || !user) throw new Error("User not found");
 
