@@ -7,7 +7,7 @@ export class ProductController {
   async addProduct(req: Request, res: Response) {
     try {
       const { title, description, price, catalogue } = req.body;
-      const file = req.file; 
+      const file = req.file;
 
       if (!file) {
         return res.status(400).json({ message: "Image file is required" });

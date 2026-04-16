@@ -6,6 +6,7 @@ import { useAddProduct } from "../../../zustand/use-add-product";
 import { Plus } from "lucide-react";
 import AddProductModal from "../../../modals/add-product-modal/add-product-modal";
 import type { Item } from "../../../types/Items.types";
+import ProductAdmin from "../../../components/ProductAdmin";
 
 export default function ManageProducts() {
   const navigate = useNavigate();
@@ -30,25 +31,11 @@ export default function ManageProducts() {
       >
         <ArrowLeft />
       </button>
-      <div>
+      <div className={styles.productsContainer}>
         {data && data.length > 0 ? (
-          <ul className={styles.productList}>
-            {data.map((product: Item) => (
-              <li key={product.id} className={styles.productItem}>
-                <img
-                  src={product.image_url}
-                  alt={product.title}
-                  className={styles.productImage}
-                />
-                <div className={styles.productDetails}>
-                  <h3>{product.title}</h3>
-                  <p>{product.description}</p>
-                  <p>{product.catalogue}</p>
-                  <p>${product.price}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          data.map((product: Item) => (
+            <ProductAdmin key={product.id} product={product} />
+          ))
         ) : (
           <p>No products found.</p>
         )}

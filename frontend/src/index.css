@@ -39,6 +39,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #ffffff;
+    --text-secondary: #c0c0c0;
+    --card-bg: #1f2028;
     --bg: #0e0e0e;
     --bg-secondary: #252526;
     --header: rgba(255, 255, 255, 0.1);

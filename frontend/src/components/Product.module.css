@@ -1,0 +1,58 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 16px;
+
+  max-height: 600px;
+  width: 400px;
+
+  img {
+    width: 300px;
+    height: 300px;
+    border-radius: 16px;
+    object-fit: cover;
+    align-self: center;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    color: var(--text);
+    margin-bottom: 8px;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    text-overflow: ellipsis;
+  }
+
+  strong {
+    font-size: 1.5rem;
+    color: var(--text);
+    font-weight: bold;
+  }
+}
+
+.price {
+  font-size: 1.7rem;
+  color: var(--text);
+  font-weight: bold;
+}
+
+.buy {
+  background-color: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
