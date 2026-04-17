@@ -78,7 +78,6 @@ The system is designed using modern backend architecture principles:
 Redis is used in Product Service for:
 
 - `GET /products`
-- `GET /products/:id`
 
 Features:
 - TTL caching (60–300 seconds)
