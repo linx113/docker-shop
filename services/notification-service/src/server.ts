@@ -1,20 +1,31 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 
-import cors from "cors";
+import { connectRabbit } from "./rabbit";
 
 dotenv.config();
 
 const app = express();
-app.use(cors());
 
+app.use(cors());
 app.use(express.json());
 
-// app.use("/orders", authRoutes);
-
-// Notification PORT from environment variable or default to 5005
 const PORT = process.env.PORT || 5005;
 
-app.listen(PORT, () => {
-  console.log(`Notification service running on port ${PORT}`);
-});
+async function bootstrap() {
+  try {
+    await connectRabbit({ retries: 20, baseDelayMs: 500 });
+
+    console.log("RabbitMQ connected");
+
+    app.listen(PORT, () => {
+      console.log(`Service running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("Failed to start service:", err);
+    process.exit(1);
+  }
+}
+
+bootstrap();

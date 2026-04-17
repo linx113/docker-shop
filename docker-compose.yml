@@ -66,6 +66,8 @@ services:
       - "5003:5003"
     env_file:
       - ./services/product-service/.env
+    depends_on:
+      - redis
 
   order-service:
     build: ./services/order-service
@@ -74,6 +76,8 @@ services:
       - "5004:5004"
     env_file:
       - ./services/order-service/.env
+    depends_on:
+      - rabbitmq
 
   notification-service:
     build: ./services/notification-service

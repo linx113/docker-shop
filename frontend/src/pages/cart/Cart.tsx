@@ -64,7 +64,7 @@ export default function Cart() {
 
   return (
     <>
-      <div className={styles.wrapper}>
+      <>
         <h1 className={styles.title}>Shopping Cart</h1>
         <div className={styles.content}>
           {cartItems && cartItems.length > 0 ? (
@@ -76,17 +76,18 @@ export default function Cart() {
           ) : (
             <p className={styles.empty}>Your cart is empty.</p>
           )}
+
+          <button
+            type="button"
+            onClick={handleCheckout}
+            disabled={checkoutLoading}
+            className={styles.checkoutButton}
+          >
+            {checkoutLoading ? "Processing..." : "Proceed to Checkout"}
+          </button>
+          {checkoutError && <p className={styles.error}>{checkoutError}</p>}
         </div>
-        <button
-          type="button"
-          onClick={handleCheckout}
-          disabled={checkoutLoading}
-          className={styles.checkoutButton}
-        >
-          {checkoutLoading ? "Processing..." : "Proceed to Checkout"}
-        </button>
-        {checkoutError && <p className={styles.error}>{checkoutError}</p>}
-      </div>
+      </>
     </>
   );
 }

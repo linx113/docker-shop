@@ -8,8 +8,6 @@ export const useGetCart = (user_id: string | null) => {
       const response = await axios.get(
         `/api/products/getCartItems?user_id=${user_id}`,
       );
-      console.log("Cart Items: ", response.data);
-
       return response.data;
     },
     enabled: !!user_id,

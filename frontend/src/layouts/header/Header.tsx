@@ -1,12 +1,9 @@
-import { useLanguageStore } from "../../zustand/use-language-store";
 import { useNavigate } from "react-router-dom";
-import { Languages, LayoutGrid, User, ShoppingCart } from "lucide-react";
-import LanguageDrop from "../../drop-down/language-drop";
+import { LayoutGrid, User, ShoppingCart } from "lucide-react";
 import styles from "./Header.module.css";
 import { useCartStore } from "../../zustand/use-cart-store";
 export default function Header() {
   const navigate = useNavigate();
-  const { isLanguage, setIsLanguage } = useLanguageStore();
   const { items } = useCartStore();
   return (
     <>
@@ -25,13 +22,6 @@ export default function Header() {
             <li className={styles.button} onClick={() => navigate("/cart")}>
               <ShoppingCart size={20} />
               {items > 0 && <span className={styles.cartCount}>{items}</span>}
-            </li>
-            <li
-              className={isLanguage ? styles.buttonActive : styles.button}
-              onClick={() => setIsLanguage(!isLanguage)}
-            >
-              <Languages size={20} />
-              {isLanguage && <LanguageDrop />}
             </li>
             <li className={styles.button} onClick={() => navigate("/login")}>
               <User size={20} />

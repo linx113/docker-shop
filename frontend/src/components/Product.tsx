@@ -31,8 +31,6 @@ export default function Product({ product }: ProductProps) {
     try {
       setLoading(true);
 
-      console.log("SEND:", { product_id, user_id });
-
       await axios.post("/api/products/addProductToCart", {
         product_id,
         user_id,

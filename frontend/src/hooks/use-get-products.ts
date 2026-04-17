@@ -7,7 +7,6 @@ export function useGetProducts() {
     queryKey: ["products"],
     queryFn: async () => {
       const res = await axios.get("/api/products/getProducts");
-      console.log("Fetched pro: ", res.data);
 
       return res.data;
     },

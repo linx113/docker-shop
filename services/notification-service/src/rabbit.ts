@@ -56,6 +56,7 @@ export async function connectRabbit(options?: {
       try {
         await connection?.close();
       } catch {}
+
       channel = null;
       connection = null;
 
@@ -66,17 +67,16 @@ export async function connectRabbit(options?: {
   throw lastErr ?? new Error("RabbitMQ connect failed: unknown error");
 }
 
-function getChannel(): any {
+function getChannel() {
   if (!channel) {
-    throw new Error(
-      "RabbitMQ channel not ready. Did you forget to call connectRabbit()?",
-    );
+    throw new Error("RabbitMQ not ready. Call connectRabbit() first.");
   }
   return channel;
 }
 
 export function publishOrderCreated(data: any) {
   const ch = getChannel();
+
   ch.sendToQueue(QUEUE, Buffer.from(JSON.stringify(data)), {
     persistent: true,
   });
