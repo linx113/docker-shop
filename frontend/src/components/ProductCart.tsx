@@ -2,11 +2,12 @@ import styles from "./Product.module.css";
 import { Trash } from "lucide-react";
 import type { Item } from "../types/Items.types";
 import axios from "axios";
+import { queryClient } from "../main";
 
 interface ProductProps {
   product: Item;
   userData: {
-    id: number;
+    id: string;
     username: string;
     email: string;
   } | null;
@@ -14,22 +15,24 @@ interface ProductProps {
 
 export default function ProductCart({ product, userData }: ProductProps) {
   async function handleRemoveFromCart({
-    productId,
-    userId,
+    product_id,
+    user_id,
   }: {
-    productId: number;
-    userId: number | null;
+    product_id: string;
+    user_id: string | null;
   }) {
     try {
       const res = await axios.delete("/api/products/removeProductFromCart", {
         data: {
-          productId,
-          userId,
+          product_id,
+          user_id,
         },
       });
       if (res.status === 200) {
         alert("Product removed from cart successfully!");
-        window.location.reload();
+        queryClient.invalidateQueries({
+          queryKey: ["cart", userData?.id],
+        });
       }
     } catch (err: any) {
       console.error("Error removing product from cart:", err);
@@ -48,8 +51,8 @@ export default function ProductCart({ product, userData }: ProductProps) {
           type="button"
           onClick={() =>
             handleRemoveFromCart({
-              productId: product.id,
-              userId: userData?.id || null,
+              product_id: product.id,
+              user_id: userData?.id || null,
             })
           }
         >

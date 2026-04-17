@@ -31,16 +31,16 @@ export class ProductController {
 
   async addProductToCart(req: Request, res: Response) {
     try {
-      const { productId, userId } = req.body;
+      const { product_id, user_id } = req.body;
 
-      if (!productId || !userId) {
+      if (!product_id || !user_id) {
         return res
           .status(400)
-          .json({ message: "Both productId and userId are required" });
+          .json({ message: "Both product_id and user_id are required" });
       }
       const result = await productService.addProductToCart({
-        productId: productId,
-        userId: userId,
+        product_id: product_id,
+        user_id: user_id,
       });
       res.status(200).json(result);
     } catch (err: any) {
@@ -52,13 +52,13 @@ export class ProductController {
   // <- GET ->
   async getCartItems(req: Request, res: Response) {
     try {
-      const { userId } = req.query;
-      if (!userId || typeof userId !== "string") {
+      const { user_id } = req.query;
+      if (!user_id || typeof user_id !== "string") {
         return res
           .status(400)
-          .json({ message: "userId query parameter is required" });
+          .json({ message: "user_id query parameter is required" });
       }
-      const cartItems = await productService.getCartItems(userId);
+      const cartItems = await productService.getCartItems(user_id);
       res.json(cartItems);
     } catch (err: any) {
       console.error("Error in getCartItems controller:", err);
@@ -79,16 +79,16 @@ export class ProductController {
   // <- DELETE ->
   async removeProductFromCart(req: Request, res: Response) {
     try {
-      const { productId, userId } = req.body;
-      if (!productId || !userId) {
+      const { product_id, user_id } = req.body;
+      if (!product_id || !user_id) {
         return res
 
           .status(400)
-          .json({ message: "Both productId and userId are required" });
+          .json({ message: "Both product_id and user_id are required" });
       }
       await productService.removeProductFromCart({
-        productId: Number(productId),
-        userId: userId,
+        product_id: product_id,
+        user_id: user_id,
       });
       res.json({ message: "Product removed from cart" });
     } catch (err: any) {
@@ -96,19 +96,4 @@ export class ProductController {
       res.status(500).json({ message: err.message });
     }
   }
-
-  async clearCart(req: Request, res: Response) {
-    try {
-      const { userId } = req.body;
-      if (!userId) {
-        return res.status(400).json({ message: "userId is required" });
-      }
-      await productService.clearCart(userId);
-      res.json({ message: "Cart cleared" });
-    } catch (err: any) {
-      console.error("Error in clearCart controller:", err);
-      res.status(500).json({ message: err.message });
-    }
-  }
-  
 }

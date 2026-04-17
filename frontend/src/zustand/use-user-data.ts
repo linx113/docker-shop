@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface UserDataState {
   userData: {
-    id: number;
+    id: string;
     username: string;
     email: string;
   } | null;

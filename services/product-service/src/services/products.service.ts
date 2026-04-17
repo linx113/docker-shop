@@ -1,4 +1,5 @@
 import { createSupabaseClient } from "../db/server";
+import { redis } from "../redis";
 import type { Express } from "express";
 
 type UploadedFile = Express.Multer.File;
@@ -50,23 +51,25 @@ export class ProductService {
       throw new Error(error?.message || "Product not created");
     }
 
+    redis.del("products"); // Invalidate products cache
+
     return product;
   }
 
   async addProductToCart({
-    productId,
-    userId,
+    product_id,
+    user_id,
   }: {
-    productId: number;
-    userId: string;
+    product_id: string;
+    user_id: string;
   }) {
-    if (!userId) {
+    if (!user_id) {
       throw new Error("User not authenticated");
     }
 
     const { data: cartItem, error } = await supabase
       .from("cart")
-      .insert([{ productId, userId }])
+      .insert([{ product_id, user_id }])
       .select()
       .maybeSingle();
 
@@ -75,32 +78,34 @@ export class ProductService {
       throw new Error(error?.message || "Cart item not created");
     }
 
+    redis.del(`cart:${user_id}`); // Invalidate cart cache for the user
+
     return cartItem;
   }
 
   // <-- GET -->
-  async getCartItems(userId: string) {
-    if (!userId) {
-      throw new Error("User not authenticated");
-    }
+  async getCartItems(user_id: string) {
+    if (!user_id) throw new Error("User not authenticated");
+
     const { data, error } = await supabase
       .from("cart")
       .select(
         `
-    id,
-    userId,
-    productId,
-    products (*)
-  `,
+      product:products!cart_productId_fkey (
+        *
       )
-      .eq("userId", userId);
+    `,
+      )
+      .eq("user_id", user_id);
 
     if (error) {
       console.error("Supabase select error:", error);
-      throw new Error("Failed to fetch cart items");
+      throw new Error("Failed to fetch cart products");
     }
 
-    return data;
+    redis.set(`cart:${user_id}`, JSON.stringify(data), "EX", 3600); // Cache for 1 hour
+
+    return (data ?? []).map((r) => r.product).filter(Boolean);
   }
 
   async getProducts() {
@@ -113,46 +118,35 @@ export class ProductService {
       throw new Error("Failed to fetch products");
     }
 
+    redis.set("products", JSON.stringify(products), "EX", 3600); // Cache for 1 hour
+
     return products;
   }
 
   // <- DELETE ->
   async removeProductFromCart({
-    productId,
-    userId,
+    product_id,
+    user_id,
   }: {
-    productId: number;
-    userId: string;
+    product_id: string;
+    user_id: string;
   }) {
-    if (!userId) {
+    if (!user_id) {
       throw new Error("User not authenticated");
     }
     const { data, error } = await supabase
       .from("cart")
       .delete()
-      .eq("id", productId)
-      .eq("userId", userId);
+      .eq("id", product_id)
+      .eq("user_id", user_id);
 
     if (error) {
       console.error("Supabase delete error:", error);
       throw new Error("Failed to remove product from cart");
     }
-    return data;
-  }
 
-  async clearCart(userId: string) {
-    if (!userId) {
-      throw new Error("User not authenticated");
-    }
-    const { data, error } = await supabase
-      .from("cart")
-      .delete()
-      .eq("userId", userId);
+    redis.del(`cart:${user_id}`); // Invalidate cart cache for the user
 
-    if (error) {
-      console.error("Supabase delete error:", error);
-      throw new Error("Failed to clear cart");
-    }
     return data;
   }
 }

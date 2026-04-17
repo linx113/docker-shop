@@ -23,7 +23,6 @@ function App() {
           },
         })
         .then((response) => {
-          console.log("User data:", response.data);
           setUserData({
             id: response.data.id,
             username: response.data.username,
@@ -44,7 +43,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route
-          path={token !== null || undefined ? "/cart" : "/login"}
+          path={"/cart"}
           element={<Cart />}
         />
 

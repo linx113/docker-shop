@@ -18,3 +18,15 @@ export const productsProxy = createProxyMiddleware({
   changeOrigin: true,
   pathRewrite: (path) => `/products${path}`, // /getProducts -> /products/getProducts
 });
+
+export const orderProxy = createProxyMiddleware({
+  target: process.env.ORDER_SERVICE_URL, // http://order-service:5004
+  changeOrigin: true,
+  pathRewrite: (path) => `/orders${path}`,
+});
+
+export const notificationProxy = createProxyMiddleware({
+  target: process.env.NOTIFICATION_SERVICE_URL, // http://notification-service:5005
+  changeOrigin: true,
+  pathRewrite: (path) => `/notifications${path}`,
+});

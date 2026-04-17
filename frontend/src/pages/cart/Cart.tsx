@@ -1,12 +1,14 @@
 import styles from "./Cart.module.css";
-import { Trash } from "lucide-react";
 import ProductCart from "../../components/ProductCart";
 import { useUserDataStore } from "../../zustand/use-user-data";
 import { useGetCart } from "../../hooks/use-get-cart";
 import type { Item } from "../../types/Items.types";
+import { useState } from "react";
 import axios from "axios";
 
 export default function Cart() {
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const { userData } = useUserDataStore();
   const {
     data: cartItems,
@@ -14,20 +16,31 @@ export default function Cart() {
     error,
   } = useGetCart(userData?.id || null);
 
-  async function handleClearCart() {
+  async function handleCheckout() {
     try {
-      const res = await axios.delete("/api/products/clearCart", {
-        data: {
-          userId: userData?.id,
-        },
-      });
-      if (res.status === 200) {
-        alert("Cart cleared successfully!");
-        window.location.reload();
+      setCheckoutLoading(true);
+      setCheckoutError(null);
+      if (!userData) {
+        alert("Please log in to proceed with checkout.");
+        return;
       }
-    } catch (err: any) {
-      console.error("Error clearing cart:", err);
-      alert("Failed to clear cart: " + err.message);
+
+      const response = await axios.post("/api/orders/createOrder", {
+        user_id: userData.id,
+        items:
+          cartItems?.map((item: Item) => ({
+            product_id: item.id,
+            quantity: 1, // Assuming quantity is 1 for simplicity
+          })) || [],
+      });
+
+      alert("Order created successfully!");
+      console.log("Order: ", response.data);
+    } catch (err) {
+      console.error("Checkout error:", err);
+      setCheckoutError("An error occurred during checkout. Please try again.");
+    } finally {
+      setCheckoutLoading(false);
     }
   }
 
@@ -52,26 +65,27 @@ export default function Cart() {
   return (
     <>
       <div className={styles.wrapper}>
-        <h1>Shopping Cart</h1>
-        {cartItems && cartItems.length > 0 ? (
-          <div className={styles.items}>
-            {cartItems.map((item: Item) => (
-              <ProductCart key={item.id} product={item} userData={userData} />
-            ))}
-          </div>
-        ) : (
-          <p>Your cart is empty.</p>
-        )}
-        <div>
-          <button
-            className={styles.clearButton}
-            type="button"
-            onClick={handleClearCart}
-          >
-            <Trash />
-            Clear Cart
-          </button>
+        <h1 className={styles.title}>Shopping Cart</h1>
+        <div className={styles.content}>
+          {cartItems && cartItems.length > 0 ? (
+            <div className={styles.items}>
+              {cartItems.map((item: Item) => (
+                <ProductCart key={item.id} product={item} userData={userData} />
+              ))}
+            </div>
+          ) : (
+            <p className={styles.empty}>Your cart is empty.</p>
+          )}
         </div>
+        <button
+          type="button"
+          onClick={handleCheckout}
+          disabled={checkoutLoading}
+          className={styles.checkoutButton}
+        >
+          {checkoutLoading ? "Processing..." : "Proceed to Checkout"}
+        </button>
+        {checkoutError && <p className={styles.error}>{checkoutError}</p>}
       </div>
     </>
   );

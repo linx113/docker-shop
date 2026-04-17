@@ -19,7 +19,4 @@ router.get("/getCartItems", (req, res) =>
 router.delete("/removeProductFromCart", (req, res) =>
   productController.removeProductFromCart(req, res),
 );
-router.delete("/clearCart", (req, res) =>
-  productController.clearCart(req, res),
-);
 export default router;

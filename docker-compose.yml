@@ -3,6 +3,19 @@ services:
     build: ./frontend
     container_name: frontend
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -23,6 +36,8 @@ services:
       - AUTH_SERVICE_URL=http://auth-service:5001
       - USER_SERVICE_URL=http://user-service:5002
       - PRODUCT_SERVICE_URL=http://product-service:5003
+      - ORDER_SERVICE_URL=http://order-service:5004
+      - NOTIFICATION_SERVICE_URL=http://notification-service:5005
     depends_on:
       - auth-service
       - user-service
@@ -51,3 +66,19 @@ services:
       - "5003:5003"
     env_file:
       - ./services/product-service/.env
+
+  order-service:
+    build: ./services/order-service
+    container_name: order-service
+    ports:
+      - "5004:5004"
+    env_file:
+      - ./services/order-service/.env
+
+  notification-service:
+    build: ./services/notification-service
+    container_name: notification-service
+    ports:
+      - "5005:5005"
+    env_file:
+      - ./services/notification-service/.env

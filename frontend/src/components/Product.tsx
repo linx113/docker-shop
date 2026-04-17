@@ -17,13 +17,13 @@ export default function Product({ product }: ProductProps) {
 
   const token = localStorage.getItem("token");
 
-  async function handleAddToCart(productId: number, userId: any) {
+  async function handleAddToCart(product_id: string, user_id: string | null) {
     if (!token) {
       alert("Please log in to add products to your cart.");
       return;
     }
 
-    if (!userId) {
+    if (!user_id) {
       alert("User not found");
       return;
     }
@@ -31,11 +31,11 @@ export default function Product({ product }: ProductProps) {
     try {
       setLoading(true);
 
-      console.log("SEND:", { productId, userId });
+      console.log("SEND:", { product_id, user_id });
 
       await axios.post("/api/products/addProductToCart", {
-        productId,
-        userId,
+        product_id,
+        user_id,
       });
 
       addToCart();
