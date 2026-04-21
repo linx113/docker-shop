@@ -67,7 +67,7 @@ export async function connectRabbit(options?: {
   throw lastErr ?? new Error("RabbitMQ connect failed: unknown error");
 }
 
-function getChannel() {
+export function getChannel() {
   if (!channel) {
     throw new Error("RabbitMQ not ready. Call connectRabbit() first.");
   }

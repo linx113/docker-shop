@@ -4,6 +4,7 @@ interface UserDataState {
   userData: {
     id: string;
     username: string;
+    role: string;
     email: string;
   } | null;
   setUserData: (data: UserDataState["userData"]) => void;

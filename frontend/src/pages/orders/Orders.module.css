@@ -1,0 +1,98 @@
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  color: var(--text);
+}
+
+.wrapper h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* LIST */
+.wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ORDER CARD */
+.wrapper > ul > li {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ORDER HEADER */
+.wrapper h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.wrapper h3 {
+  font-size: 0.95rem;
+  margin-top: 10px;
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+}
+
+/* TEXT */
+.wrapper p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* STATUS BADGE */
+.status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* STATUS COLORS */
+.active {
+  background: rgba(0, 200, 100, 0.15);
+  color: #00c864;
+}
+
+.pending {
+  background: rgba(255, 170, 0, 0.15);
+  color: #ffaa00;
+}
+
+.rejected {
+  background: rgba(255, 50, 50, 0.15);
+  color: #ff3232;
+}
+
+/* ITEMS LIST */
+.wrapper ul ul {
+  margin-top: 8px;
+  padding-left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* EMPTY / ERROR / LOADING */
+.wrapper p {
+  font-size: 0.95rem;
+}

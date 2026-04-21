@@ -134,10 +134,14 @@ export class ProductService {
     if (!user_id) {
       throw new Error("User not authenticated");
     }
+
+    console.log(product_id);
+    console.log(user_id);
+
     const { data, error } = await supabase
       .from("cart")
       .delete()
-      .eq("id", product_id)
+      .eq("product_id", product_id)
       .eq("user_id", user_id);
 
     if (error) {

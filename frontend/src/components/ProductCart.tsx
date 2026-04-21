@@ -14,29 +14,24 @@ interface ProductProps {
 }
 
 export default function ProductCart({ product, userData }: ProductProps) {
-  async function handleRemoveFromCart({
-    product_id,
-    user_id,
-  }: {
-    product_id: string;
-    user_id: string | null;
-  }) {
+  async function handleRemoveFromCart(product_id: string) {
     try {
+      if (!userData?.id) return;
+
       const res = await axios.delete("/api/products/removeProductFromCart", {
         data: {
           product_id,
-          user_id,
+          user_id: userData.id,
         },
       });
+
       if (res.status === 200) {
-        alert("Product removed from cart successfully!");
         queryClient.invalidateQueries({
-          queryKey: ["cart", userData?.id],
+          queryKey: ["cartItems", userData.id],
         });
       }
     } catch (err: any) {
       console.error("Error removing product from cart:", err);
-      alert("Failed to remove product from cart: " + err.message);
     }
   }
 
@@ -44,28 +39,22 @@ export default function ProductCart({ product, userData }: ProductProps) {
     <div className={styles.card}>
       <img src={product.image_url} alt={product.title} />
 
-      <div>
+      <div className={styles.cardContent}>
         <h3>{product.title}</h3>
-        <button
-          className={styles.remove}
-          type="button"
-          onClick={() =>
-            handleRemoveFromCart({
-              product_id: product.id,
-              user_id: userData?.id || null,
-            })
-          }
-        >
-          <Trash />
-          Remove from cart
-        </button>
-      </div>
+        <p>{product.description}</p>
 
-      <p>Catalog - {product.catalogue}</p>
-      <span className={styles.price}>
-        {product.price}
-        <strong>$</strong>
-      </span>
+        <div className={styles.price}>${product.price}</div>
+
+        <div className={styles.actions}>
+          <button
+            onClick={() => handleRemoveFromCart(product.id)}
+            className={styles.remove}
+          >
+            <Trash size={16} />
+            Remove
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

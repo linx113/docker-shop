@@ -1,0 +1,147 @@
+.page {
+  min-width: 100vw;
+  padding: 32px;
+  font-family: Inter, sans-serif;
+  background: #000000;
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.muted {
+  color: #9ca3af;
+}
+
+.error {
+  color: #ef4444;
+}
+
+/* GRID */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* CARD */
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid #ffffff;
+  border-radius: 14px;
+  padding: 16px;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #374151;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.email {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* BADGES */
+
+.badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.user {
+  background: #1f2937;
+  color: #9ca3af;
+}
+
+.admin {
+  background: #1e3a8a;
+  color: #93c5fd;
+}
+
+.superadmin {
+  background: #7c2d12;
+  color: #fdba74;
+}
+
+/* BUTTONS */
+
+.btn {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #374151;
+}
+
+.primary {
+  background: #2563eb;
+  border: none;
+}
+
+.primary:hover {
+  background: #1d4ed8;
+}
+
+.ghost {
+  background: transparent;
+}
+
+/* PANEL */
+
+.panel {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #1f2937;
+}
+
+.label {
+  font-size: 12px;
+  color: #9ca3af;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  background: #0b0f17;
+  border: 1px solid #374151;
+  color: white;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}

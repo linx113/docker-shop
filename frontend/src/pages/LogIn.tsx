@@ -7,9 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../zod/auth";
 import type { LoginData } from "../zod/auth";
 import { useState } from "react";
+import { useUserDataStore } from "../zustand/use-user-data";
 import axios from "axios";
 
 export default function LogIn() {
+  const { setUserData } = useUserDataStore();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -31,6 +33,13 @@ export default function LogIn() {
       localStorage.setItem("token", token);
 
       console.log(res.data);
+
+      setUserData({
+        id: res.data.id,
+        username: res.data.username,
+        role: res.data.role,
+        email: res.data.email,
+      });
 
       navigate("/");
     } catch (error) {

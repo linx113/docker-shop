@@ -1,0 +1,88 @@
+.wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  color: var(--text);
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* ORDERS GRID */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ORDER CARD */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 14px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* HEADER ROW */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* TEXT */
+.text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* STATUS */
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.active {
+  background: rgba(0, 200, 100, 0.15);
+  color: #00c864;
+}
+
+.pending {
+  background: rgba(255, 170, 0, 0.15);
+  color: #ffaa00;
+}
+
+.rejected {
+  background: rgba(255, 50, 50, 0.15);
+  color: #ff3232;
+}
+
+/* ITEMS */
+.items {
+  margin-top: 8px;
+  padding-left: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* EMPTY */
+.empty {
+  color: var(--text-secondary);
+}

@@ -5,6 +5,15 @@ import { createSupabaseClient } from "../db/server";
 const supabase = createSupabaseClient();
 
 export class AuthService {
+  async logout() {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      throw new Error(error.message || "Logout failed");
+    }
+
+    return true;
+  }
   async register(data: { email: string; password: string; name: string }) {
     const hashed = await hashPassword(data.password);
 

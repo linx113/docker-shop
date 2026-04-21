@@ -4,6 +4,16 @@ import { AuthService } from "../services/auth.service";
 const authService = new AuthService();
 
 export class AuthController {
+  async logout(req: Request, res: Response) {
+    try {
+      await authService.logout();
+      res.json({ message: "Logged out successfully" });
+    } catch (err: any) {
+      console.error("Error in logout controller:", err);
+      res.status(500).json({ message: "Logout failed" });
+    }
+  }
+
   async register(req: Request, res: Response) {
     try {
       const result = await authService.register(req.body);

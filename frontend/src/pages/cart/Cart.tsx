@@ -30,7 +30,7 @@ export default function Cart() {
         items:
           cartItems?.map((item: Item) => ({
             product_id: item.id,
-            quantity: 1, // Assuming quantity is 1 for simplicity
+            quantity: 1,
           })) || [],
       });
 
@@ -68,24 +68,35 @@ export default function Cart() {
         <h1 className={styles.title}>Shopping Cart</h1>
         <div className={styles.content}>
           {cartItems && cartItems.length > 0 ? (
-            <div className={styles.items}>
-              {cartItems.map((item: Item) => (
-                <ProductCart key={item.id} product={item} userData={userData} />
-              ))}
-            </div>
+            <>
+              <div className={styles.items}>
+                {cartItems.map((item: Item) => (
+                  <ProductCart
+                    key={item.id}
+                    product={item}
+                    userData={userData}
+                  />
+                ))}
+              </div>
+
+              <div className={styles.sidebar}>
+                <button
+                  type="button"
+                  onClick={handleCheckout}
+                  disabled={checkoutLoading}
+                  className={styles.checkoutButton}
+                >
+                  {checkoutLoading ? "Processing..." : "Proceed to Checkout"}
+                </button>
+
+                {checkoutError && (
+                  <p className={styles.error}>{checkoutError}</p>
+                )}
+              </div>
+            </>
           ) : (
             <p className={styles.empty}>Your cart is empty.</p>
           )}
-
-          <button
-            type="button"
-            onClick={handleCheckout}
-            disabled={checkoutLoading}
-            className={styles.checkoutButton}
-          >
-            {checkoutLoading ? "Processing..." : "Proceed to Checkout"}
-          </button>
-          {checkoutError && <p className={styles.error}>{checkoutError}</p>}
         </div>
       </>
     </>

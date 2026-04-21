@@ -21,4 +21,32 @@ export class OrderController {
       res.status(400).json({ message: err.message });
     }
   }
+
+  async getUserOrders(req: Request, res: Response) {
+    const { user_id } = req.query;
+
+    if (!user_id || typeof user_id !== "string") {
+      return res
+        .status(400)
+        .json({ message: "user_id query parameter is required" });
+    }
+
+    try {
+      const orders = await orderService.getOrdersByUserId(user_id);
+      res.json(orders);
+    } catch (err: any) {
+      console.error("Error in getOrders controller:", err);
+      res.status(500).json({ message: "Failed to fetch orders" });
+    }
+  }
+
+  async getAllOrders(req: Request, res: Response) {
+    try {
+      const orders = await orderService.getAllOrders();
+      res.json(orders);
+    } catch (err: any) {
+      console.error("Error in getAllOrders controller:", err);
+      res.status(500).json({ message: "Failed to fetch all orders" });
+    }
+  }
 }
